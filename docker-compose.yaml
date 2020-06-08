@@ -1,0 +1,23 @@
+version: '3'
+
+services:
+  prometheus:
+    image: alexswilliams/arm32v6-prometheus
+    user: root
+    volumes:
+      - ./prometheus/:/etc/prometheus/
+      - ./data/prometheus:/app/data
+    ports:
+      - 9090:9090
+    restart: always
+
+  grafana:
+    image: alexswilliams/arm32v6-grafana:7.0.3
+    depends_on:
+     - prometheus
+    ports:
+      - 80:3000
+    volumes:
+      - ./grafana/:/etc/grafana
+      - ./data/grafana:/var/lib/grafana
+    restart: always
